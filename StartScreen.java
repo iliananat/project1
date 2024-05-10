@@ -8,7 +8,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class StartScreen extends World
 {
-    GreenfootSound menu=new GreenfootSound("blue monday.wav");
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -30,7 +29,6 @@ public class StartScreen extends World
     private void prepare()
     {
         Player.doorKey=false;
-        menu.playLoop();
         GreenfootImage bg = getBackground();
         Font font = bg.getFont();
         bg.setColor(Color.WHITE);
@@ -61,7 +59,6 @@ public class StartScreen extends World
     
     public void startGame(){
         if(Greenfoot.isKeyDown("enter")){
-            menu.stop();
             Greenfoot.setWorld(new Level1());
         }
     }

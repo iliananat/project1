@@ -9,7 +9,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Player extends Mover
 {
     GifImage gifImage=new GifImage("mario_walking.gif");
-    GreenfootSound sound=new GreenfootSound("soundtrack.wav");
     Level1 game1;
     Level2 game2;
     public static int level;
@@ -38,14 +37,12 @@ public class Player extends Mover
         getCoin();
         loseLife();
         checkNextLevel();
-        outOfTime();
     }
     public Player(){
         life=3;
         GreenfootImage img=new GreenfootImage(gifImage.getCurrentImage());
         img.scale(img.getWidth()/2,img.getHeight()/2);
         setImage(img);
-        sound.playLoop();
     }
     private void checkKeys()
     {
@@ -85,12 +82,10 @@ public class Player extends Mover
         Actor key=getOneIntersectingObject(DoorKey.class);
         if(key!=null){
             getWorld().removeObject(key);
-            sound.pause();
             Greenfoot.playSound("door bell.wav");
             Greenfoot.delay(50);
             Greenfoot.playSound("door unlock.wav");
             Greenfoot.delay(50);
-            sound.play();
             game1.key=true;
             doorKey=true;
         }
@@ -118,14 +113,10 @@ public class Player extends Mover
     public void loseLife(){
         if(isTouching(Spike.class)){
             life=life-1;
-            sound.stop();
             Greenfoot.playSound("death.wav");
             Greenfoot.delay(100);
             if(life>0){
-                sound.playLoop();
                 setLocation(80, 300);
-            }else{
-                sound.stop();
             }
         }
     }
@@ -153,7 +144,6 @@ public class Player extends Mover
         {
             doorKey=false;
             numberOfCoins=numberOfCoins+(Level1.timer/100)*10;
-            sound.stop();
             level=2;
             life=3;
             Greenfoot.playSound("stage_clear.wav");
@@ -163,17 +153,8 @@ public class Player extends Mover
         else if (level==2 && isTouching(Door.class) && doorKey)
         {
             doorKey=false;
-            sound.stop();
             getWorld().removeObject(this);
             Greenfoot.setWorld(new WinScreen(numberOfCoins+(Level2.timer/100)*10));
-        }
-    }
-    public void outOfTime(){
-        if(level==1 && Level1.timer<=1){
-            sound.stop();
-        }
-        if(level==2 && Level2.timer<=1){
-            sound.stop();
         }
     }
 }
